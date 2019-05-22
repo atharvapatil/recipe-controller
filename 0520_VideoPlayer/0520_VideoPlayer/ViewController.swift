@@ -90,7 +90,7 @@ class ViewController: UIViewController {
         
         
         //Defining the video URL of the video to import
-        let url = URL(string: "https://firebasestorage.googleapis.com/v0/b/storagetest-14293.appspot.com/o/Binging%20with%20Babish%20Master%20of%20None%20Carbonara.mp4?alt=media&token=1ac1bbba-cf36-4dc1-af86-8aa83e2654e5")!
+        let url = URL(string: "https://firebasestorage.googleapis.com/v0/b/sprinshow19.appspot.com/o/Binging%20with%20Babish%20Master%20of%20None%20Carbonara.mp4?alt=media&token=1ff742a1-7e7e-47f6-86b9-2bdfb9b3ba40")!
         
         // Referencing it to the video player
         player = AVPlayer(url: url)
@@ -104,7 +104,7 @@ class ViewController: UIViewController {
         videoView.layer.addSublayer(playerLayer)
         
        
-        
+        player.volume = 1
         
     }
     
@@ -113,7 +113,7 @@ class ViewController: UIViewController {
          super.viewDidLayoutSubviews()
           playerLayer.frame = videoView.bounds
         
-//        player.volume = 1
+        
 //        player.pause()
         
     }
@@ -139,15 +139,20 @@ class ViewController: UIViewController {
         if isVideoPlaying {
              player.pause()
             sender.setTitle("PLAY", for: .normal)
+            revButt.setTitle("<<", for: .normal)
         } else  {
             player.play ()
             sender.setTitle("PAUSE", for: .normal)
+            revButt.setTitle("<<", for: .normal)
         }
           isVideoPlaying =  !isVideoPlaying
     }
     
     
     @IBAction func rewindepressed(_ sender: Any) {
+        
+        revButt.setTitle("<<", for: .normal)
+        
         let currentTime = CMTimeGetSeconds(player.currentTime())
         var newTime = currentTime - 5.0
         
@@ -364,7 +369,7 @@ extension ViewController: CBPeripheralDelegate{
         
         
         // Now that the charectertistic is discovered it's time to press the button
-        bleState.text = "Player Volume: " + "\(player.volume)"
+//        bleState.text = "Player Volume: " + "\(player.volume)"
         
     }
     
@@ -398,6 +403,9 @@ extension ViewController: CBPeripheralDelegate{
         if playPauseValue == 0 {
             player.pause()
             
+            playButt.setTitle("PLAY", for: .normal)
+            revButt.setTitle("<<", for: .normal)
+            
 //            isVideoPlaying = false
 //            bleState.text = "Video Paused"
             
@@ -410,6 +418,8 @@ extension ViewController: CBPeripheralDelegate{
         } else if playPauseValue == 1  {
             player.play()
             
+            playButt.setTitle("PAUSE", for: .normal)
+            revButt.setTitle("<<", for: .normal)
 //            isVideoPlaying = true
             
 //            bleState.text = "Video Playing"
@@ -426,11 +436,6 @@ extension ViewController: CBPeripheralDelegate{
         
         print("Reverse Value:", reverseValue)
         
-//        if reverseValue == 0{
-//            self.reverseState.backgroundColor = .yellow
-//        } else if reverseValue == 1 {
-//            self.reverseState.backgroundColor = .green
-//        }
         
         if reverseValue == 1{
         
@@ -442,28 +447,25 @@ extension ViewController: CBPeripheralDelegate{
         }
         let time: CMTime = CMTimeMake(value: Int64(newTime*1000), timescale: 1000)
         player.seek(to: time)
-            
-//            let data = Data(bytes: &playPauseValue, count: MemoryLayout.size(ofValue: playPauseValue))
-//            arduinoPeripheral?.writeValue(data, for: playPauseChar!, type: .withResponse)
+        
+        revButt.setTitle("<<", for: .normal)
             
         } else if reverseValue == 0 {
             
             print("Video Reversed")
             
-//        let currentTime = CMTimeGetSeconds(player.currentTime())
-//            let time: CMTime = CMTimeMake(value: Int64(currentTime*1000), timescale: 1000)
-//            player.seek(to: time)
+            revButt.setTitle("<<", for: .normal)
             
         }
         
         
-        guard let videoState = videoScrubChar!.value else {
-            return
-        }
-        
-        let videoValue = videoState.int8Value()
-        
-        print("Video Value:", videoValue)
+//        guard let videoState = videoScrubChar!.value else {
+//            return
+//        }
+//
+//        let videoValue = videoState.int8Value()
+//
+//        print("Video Value:", videoValue)
         
 //        videoCompleteText.text = "Volume level: " + "\(videoValue)"
         
@@ -481,7 +483,7 @@ extension ViewController: CBPeripheralDelegate{
         
         player.volume = myAudioFloat/100
             
-        bleState.text = "Pot Val: " + "\(audioValue)"
+        bleState.text = "Volume : " + "\(audioValue)"
         
     }
     
@@ -495,4 +497,3 @@ extension Data {
     
     
 }
-

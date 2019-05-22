@@ -21,7 +21,7 @@ const int videoScrubPin = A3;   // to scrub the video based on the chain positio
 const int audioScrubPin = A4;   // to control the audio of the iOS device.
 
 // mapped potentiometer value need to change by +/- this amount to be considered a change
-const int POT_THRESHOLD = 10;
+const int POT_THRESHOLD = 15;
 
 const int ON = 1;
 const int OFF = 0;
